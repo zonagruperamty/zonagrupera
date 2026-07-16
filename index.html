@@ -286,6 +286,76 @@
         }
 
 
+
+
+        .visualmente-oculto {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .sonando-ahora {
+            padding-top: 0;
+        }
+
+        .sonando-tarjeta {
+            width: min(720px, 100%);
+            margin: 0 auto;
+            padding: 26px 22px;
+            background:
+                linear-gradient(145deg,
+                var(--tarjeta-secundaria),
+                var(--tarjeta));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.23);
+            text-align: center;
+        }
+
+        .caratula-actual {
+            display: block;
+            width: min(220px, 72vw);
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border-radius: 18px;
+            background: var(--tarjeta-secundaria);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+        }
+
+        .etiqueta-sonando {
+            margin: 0 0 8px;
+            color: var(--dorado-claro);
+            font-weight: bold;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        #cancionActual {
+            margin: 0;
+            font-size: clamp(1.35rem, 4vw, 2rem);
+            line-height: 1.3;
+        }
+
+        #artistaActual {
+            margin: 8px 0 0;
+            color: var(--texto-suave);
+            font-size: 1.08rem;
+        }
+
+        #estadoCancion {
+            min-height: 24px;
+            margin: 14px 0 0;
+            color: var(--texto-suave);
+            font-size: 0.95rem;
+        }
+
         .sugerencias {
             background: rgba(17, 26, 45, 0.74);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -416,6 +486,11 @@
                 padding: 22px 17px;
             }
 
+
+            .sonando-tarjeta {
+                padding: 22px 16px;
+            }
+
             .facebook-contenedor iframe {
                 min-height: 210px;
             }
@@ -448,7 +523,7 @@
             </div>
 
             <img class="logo"
-                 src="logo.jpg.jpeg"
+                 src="logo.jpeg"
                  alt="Logotipo de Zona Grupera con acordeón, sombrero y el Cerro de la Silla">
 
             <h1>Zona Grupera</h1>
@@ -496,6 +571,45 @@
     </header>
 
     <main>
+
+
+        <section class="sonando-ahora"
+                 aria-labelledby="tituloSonando">
+
+            <div class="contenedor">
+
+                <div class="sonando-tarjeta">
+
+                    <img id="caratulaActual"
+                         class="caratula-actual"
+                         src="logo.jpeg"
+                         alt="Carátula de la canción que está sonando">
+
+                    <p class="etiqueta-sonando">
+                        Sonando ahora
+                    </p>
+
+                    <h2 id="tituloSonando"
+                        class="visualmente-oculto">
+                        Canción que se está reproduciendo
+                    </h2>
+
+                    <p id="cancionActual">
+                        Cargando canción...
+                    </p>
+
+                    <p id="artistaActual"></p>
+
+                    <p id="estadoCancion"
+                       role="status"
+                       aria-live="polite">
+                        Consultando la transmisión.
+                    </p>
+
+                </div>
+
+            </div>
+        </section>
 
         <section class="solicitudes"
                  aria-labelledby="tituloSolicitudes">
@@ -755,7 +869,8 @@
                 </h2>
 
                 <p class="descripcion-seccion">
-                    Síguenos en Facebook o envíanos un mensaje.
+                    Sigue nuestra página para enterarte de promociones,
+                    concursos, programas especiales y novedades.
                 </p>
 
                 <div class="botones-sociales">
@@ -766,15 +881,6 @@
                        rel="noopener noreferrer">
 
                         Facebook de Zona Grupera
-
-                    </a>
-
-                    <a class="boton-social"
-                       href="https://wa.me/528115329210"
-                       target="_blank"
-                       rel="noopener noreferrer">
-
-                        Envíanos un WhatsApp
 
                     </a>
 
@@ -809,6 +915,88 @@
 
         const marcoSolicitudes =
             panelSolicitudes.querySelector("iframe");
+
+
+        async function actualizarSonandoAhora() {
+            try {
+                const respuesta = await fetch(
+                    urlSonandoAhora,
+                    { cache: "no-store" }
+                );
+
+                if (!respuesta.ok) {
+                    throw new Error(
+                        "Respuesta no válida del servidor"
+                    );
+                }
+
+                const datos = await respuesta.json();
+                const reproduccion = datos.now_playing || {};
+                const cancion = reproduccion.song || {};
+
+                const textoCompleto =
+                    (cancion.text || "").trim();
+
+                const artista =
+                    (cancion.artist || "").trim();
+
+                const titulo =
+                    (cancion.title || "").trim();
+
+                /*
+                 * En algunos archivos de la estación los campos
+                 * artista y título vienen invertidos. Por eso,
+                 * cuando existe "text", lo usamos como nombre
+                 * principal porque suele contener la información
+                 * completa tal como la envía AzuraCast.
+                 */
+                if (textoCompleto) {
+                    cancionActual.textContent = textoCompleto;
+                    artistaActual.textContent = "";
+                } else if (titulo || artista) {
+                    cancionActual.textContent =
+                        titulo || "Zona Grupera";
+
+                    artistaActual.textContent = artista;
+                } else {
+                    cancionActual.textContent =
+                        "Zona Grupera en vivo";
+
+                    artistaActual.textContent = "";
+                }
+
+                if (cancion.art) {
+                    caratulaActual.src = cancion.art;
+                } else {
+                    caratulaActual.src = "logo.jpeg";
+                }
+
+                const estaEnLinea =
+                    datos.is_online === true;
+
+                estadoCancion.textContent = estaEnLinea
+                    ? "Información actualizada automáticamente."
+                    : "La estación no aparece en línea en este momento.";
+            } catch (error) {
+                cancionActual.textContent =
+                    "Zona Grupera en vivo";
+
+                artistaActual.textContent = "";
+
+                caratulaActual.src =
+                    "logo.jpeg";
+
+                estadoCancion.textContent =
+                    "No fue posible consultar la canción actual.";
+            }
+        }
+
+        actualizarSonandoAhora();
+
+        setInterval(
+            actualizarSonandoAhora,
+            30000
+        );
 
         botonRadio.addEventListener("click", async function () {
             if (radio.paused) {
@@ -900,6 +1088,22 @@
                 botonSolicitudes.focus();
             }
         });
+
+
+        const caratulaActual =
+            document.getElementById("caratulaActual");
+
+        const cancionActual =
+            document.getElementById("cancionActual");
+
+        const artistaActual =
+            document.getElementById("artistaActual");
+
+        const estadoCancion =
+            document.getElementById("estadoCancion");
+
+        const urlSonandoAhora =
+            "https://az11.yesstreaming.net/api/nowplaying/zona_grupera";
 
         const formularioSugerencia =
             document.getElementById("formularioSugerencia");
