@@ -1,83 +1,662 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Zona Grupera</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<style>
+    <meta name="description"
+          content="Escucha Zona Grupera, la estación de la nueva era. Música grupera, banda, tropical y vallenato las 24 horas.">
 
-body{
-    margin:0;
-    background:#111;
-    color:white;
-    font-family:Arial, sans-serif;
-    text-align:center;
-}
+    <title>Zona Grupera | La estación de la nueva era</title>
 
-header{
-    background:#0066cc;
-    padding:35px;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-h1{
-    margin:0;
-    font-size:42px;
-}
+        :root {
+            --fondo: #070b16;
+            --tarjeta: #111a2d;
+            --tarjeta-secundaria: #18233a;
+            --dorado: #f2b544;
+            --dorado-claro: #ffd980;
+            --azul: #123b7a;
+            --morado: #6f287c;
+            --verde: #27df75;
+            --blanco: #ffffff;
+            --texto-suave: #d8deeb;
+        }
 
-h2{
-    font-weight:normal;
-    margin-top:10px;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-.boton{
-    display:inline-block;
-    margin-top:40px;
-    padding:18px 35px;
-    background:#ff9900;
-    color:white;
-    text-decoration:none;
-    border-radius:10px;
-    font-size:24px;
-}
+        body {
+            margin: 0;
+            background:
+                radial-gradient(circle at top, #15336a 0, #070b16 48%);
+            color: var(--blanco);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
 
-section{
-    padding:40px;
-}
+        a {
+            color: inherit;
+        }
 
-</style>
+        button,
+        a {
+            font: inherit;
+        }
 
+        .contenedor {
+            width: min(1050px, 92%);
+            margin: 0 auto;
+        }
+
+        .portada {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding: 45px 0;
+        }
+
+        .portada-contenido {
+            width: 100%;
+        }
+
+        .en-vivo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 8px 18px;
+            background: rgba(7, 11, 22, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            font-weight: bold;
+            letter-spacing: 0.08em;
+        }
+
+        .foco {
+            width: 13px;
+            height: 13px;
+            background: var(--verde);
+            border-radius: 50%;
+            box-shadow:
+                0 0 8px var(--verde),
+                0 0 18px var(--verde);
+        }
+
+        .logo {
+            display: block;
+            width: min(500px, 92%);
+            max-height: 430px;
+            object-fit: contain;
+            margin: 0 auto 18px;
+            border-radius: 22px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.3rem, 8vw, 4.7rem);
+            line-height: 1.08;
+        }
+
+        .eslogan {
+            margin: 12px 0 5px;
+            font-size: clamp(1.15rem, 4vw, 1.65rem);
+            color: var(--dorado-claro);
+        }
+
+        .origen {
+            margin-top: 6px;
+            color: var(--texto-suave);
+        }
+
+        .controles-radio {
+            margin-top: 30px;
+        }
+
+        .boton-principal,
+        .boton-secundario,
+        .boton-social {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            min-height: 58px;
+            padding: 15px 28px;
+            border: 0;
+            border-radius: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .boton-principal {
+            width: min(460px, 100%);
+            background: linear-gradient(135deg, #f1a929, #ffd067);
+            color: #171005;
+            font-size: 1.22rem;
+            box-shadow: 0 12px 30px rgba(242, 181, 68, 0.28);
+        }
+
+        .boton-secundario {
+            width: min(410px, 100%);
+            background: linear-gradient(135deg, var(--azul), var(--morado));
+            color: var(--blanco);
+            font-size: 1.08rem;
+        }
+
+        .boton-principal:hover,
+        .boton-secundario:hover,
+        .boton-social:hover {
+            transform: translateY(-2px);
+        }
+
+        .boton-principal:focus,
+        .boton-secundario:focus,
+        .boton-social:focus,
+        summary:focus {
+            outline: 4px solid var(--blanco);
+            outline-offset: 4px;
+        }
+
+        #estadoRadio {
+            min-height: 28px;
+            margin: 15px 0 0;
+            font-weight: bold;
+            color: var(--dorado-claro);
+        }
+
+        audio {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+        }
+
+        section {
+            padding: 65px 0;
+        }
+
+        .titulo-seccion {
+            margin: 0 0 12px;
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+        }
+
+        .descripcion-seccion {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            text-align: center;
+            color: var(--texto-suave);
+        }
+
+        .solicitudes {
+            background: rgba(17, 26, 45, 0.74);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .centro {
+            text-align: center;
+        }
+
+        #panelSolicitudes {
+            margin-top: 30px;
+            overflow: hidden;
+            background: #ffffff;
+            border-radius: 18px;
+        }
+
+        #panelSolicitudes[hidden] {
+            display: none;
+        }
+
+        .marco-solicitudes {
+            display: block;
+            width: 100%;
+            min-height: 850px;
+            border: 0;
+            background: #ffffff;
+        }
+
+        .programacion-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        .programa {
+            padding: 25px;
+            background:
+                linear-gradient(145deg,
+                var(--tarjeta-secundaria),
+                var(--tarjeta));
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 18px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.23);
+        }
+
+        .programa h3 {
+            margin: 0 0 12px;
+            color: var(--dorado-claro);
+            font-size: 1.35rem;
+        }
+
+        .programa p {
+            margin: 6px 0;
+        }
+
+        .fin-semana {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+        .contacto {
+            background: rgba(17, 26, 45, 0.66);
+        }
+
+        .botones-sociales {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .boton-social {
+            min-width: 220px;
+            background: var(--tarjeta-secundaria);
+            color: var(--blanco);
+            border: 1px solid rgba(255, 255, 255, 0.13);
+        }
+
+        footer {
+            padding: 35px 15px;
+            background: #03050a;
+            text-align: center;
+            color: var(--texto-suave);
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 600px) {
+            .portada {
+                min-height: auto;
+                padding: 35px 0 50px;
+            }
+
+            section {
+                padding: 50px 0;
+            }
+
+            .programa {
+                padding: 22px 18px;
+            }
+
+            .marco-solicitudes {
+                min-height: 900px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
+    <header class="portada">
+        <div class="contenedor portada-contenido">
 
-<h1>🎵 Zona Grupera</h1>
+            <div class="en-vivo"
+                 aria-label="Zona Grupera está transmitiendo en vivo">
 
-<h2>La estación de la nueva era</h2>
+                <span class="foco"
+                      aria-hidden="true"></span>
 
-</header>
+                <span>EN VIVO</span>
+            </div>
 
-<section>
+            <img class="logo"
+                 src="logo.jpg"
+                 alt="Logotipo de Zona Grupera con acordeón, sombrero y el Cerro de la Silla">
 
-<a class="boton" href="#">
-▶ ESCUCHAR EN VIVO
-</a>
+            <h1>Zona Grupera</h1>
 
-</section>
+            <p class="eslogan">
+                La estación de la nueva era
+            </p>
 
-<section>
+            <p class="origen">
+                Desde Monterrey para el mundo
+            </p>
 
-<h2>¡Muy pronto!</h2>
+            <div class="controles-radio">
 
-<p>
-Bienvenido a la nueva página oficial de Zona Grupera.
-</p>
+                <button id="botonRadio"
+                        class="boton-principal"
+                        type="button"
+                        aria-pressed="false">
 
-</section>
+                    ▶ Escucha Zona Grupera
+
+                </button>
+
+                <p id="estadoRadio"
+                   role="status"
+                   aria-live="polite">
+
+                    La transmisión está lista para comenzar.
+
+                </p>
+
+                <audio id="radio"
+                       preload="none">
+
+                    <source
+                        src="https://az11.yesstreaming.net:8500/radio.mp3"
+                        type="audio/mpeg">
+
+                    Tu navegador no puede reproducir
+                    la transmisión de Zona Grupera.
+                </audio>
+
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="solicitudes"
+                 aria-labelledby="tituloSolicitudes">
+
+            <div class="contenedor centro">
+
+                <h2 id="tituloSolicitudes"
+                    class="titulo-seccion">
+
+                    ¿Qué canción quieres escuchar?
+
+                </h2>
+
+                <p class="descripcion-seccion">
+                    Busca tu canción favorita y solicítala.
+                    Si está disponible en nuestro AutoDJ,
+                    se programará automáticamente.
+                </p>
+
+                <button id="botonSolicitudes"
+                        class="boton-secundario"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="panelSolicitudes">
+
+                    🎵 Solicítala aquí
+
+                </button>
+
+                <div id="panelSolicitudes"
+                     hidden>
+
+                    <iframe
+                        class="marco-solicitudes"
+                        title="Formulario para solicitar canciones en Zona Grupera"
+                        data-src="https://az11.yesstreaming.net/public/zona_grupera/embed-requests?theme=light"
+                        allowtransparency="true">
+                    </iframe>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section aria-labelledby="tituloProgramacion">
+
+            <div class="contenedor">
+
+                <h2 id="tituloProgramacion"
+                    class="titulo-seccion">
+
+                    Programación
+
+                </h2>
+
+                <p class="descripcion-seccion">
+                    Disfruta nuestros programas y la mejor
+                    música grupera durante toda la semana.
+                </p>
+
+                <div class="programacion-grid">
+
+                    <article class="programa">
+                        <h3>Colección Grupera</h3>
+                        <p><strong>Lunes y miércoles</strong></p>
+                        <p>10:00 de la mañana</p>
+                        <p>9:00 de la noche</p>
+                    </article>
+
+                    <article class="programa">
+                        <h3>Impacto Texano</h3>
+                        <p><strong>Martes y jueves</strong></p>
+                        <p>10:00 de la mañana</p>
+                        <p>8:00 de la noche</p>
+                    </article>
+
+                    <article class="programa">
+                        <h3>Territorio Vallenato</h3>
+                        <p><strong>Martes y jueves</strong></p>
+                        <p>9:00 de la noche</p>
+                    </article>
+
+                    <article class="programa">
+                        <h3>Night Mix</h3>
+                        <p><strong>Viernes</strong></p>
+                        <p>8:00 de la noche</p>
+                        <p><strong>Sábados</strong></p>
+                        <p>10:00 de la noche</p>
+                    </article>
+
+                    <article class="programa">
+                        <h3>Viernes de Farra</h3>
+                        <p><strong>Viernes</strong></p>
+                        <p>10:00 de la noche</p>
+                    </article>
+
+                    <article class="programa fin-semana">
+                        <h3>Fin de semana en Zona Grupera</h3>
+                        <p>
+                            Sábados y domingos disfruta una mezcla
+                            de toda nuestra programación.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="contacto"
+                 aria-labelledby="tituloContacto">
+
+            <div class="contenedor centro">
+
+                <h2 id="tituloContacto"
+                    class="titulo-seccion">
+
+                    Comunícate con nosotros
+
+                </h2>
+
+                <p class="descripcion-seccion">
+                    Síguenos en Facebook o envíanos un mensaje.
+                </p>
+
+                <div class="botones-sociales">
+
+                    <a class="boton-social"
+                       href="https://www.facebook.com/nuestrazonagrupera/"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Facebook de Zona Grupera
+
+                    </a>
+
+                    <a class="boton-social"
+                       href="https://wa.me/528115329210"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Envíanos un WhatsApp
+
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p><strong>Zona Grupera</strong></p>
+
+        <p>La estación de la nueva era</p>
+
+        <p>Desde Monterrey para el mundo</p>
+
+        <p>© 2026 Zona Grupera</p>
+
+    </footer>
+
+    <script>
+        const radio = document.getElementById("radio");
+        const botonRadio = document.getElementById("botonRadio");
+        const estadoRadio = document.getElementById("estadoRadio");
+
+        const botonSolicitudes =
+            document.getElementById("botonSolicitudes");
+
+        const panelSolicitudes =
+            document.getElementById("panelSolicitudes");
+
+        const marcoSolicitudes =
+            panelSolicitudes.querySelector("iframe");
+
+        botonRadio.addEventListener("click", async function () {
+            if (radio.paused) {
+                try {
+                    estadoRadio.textContent =
+                        "Conectando con Zona Grupera...";
+
+                    await radio.play();
+
+                    botonRadio.textContent =
+                        "⏸ Detener transmisión";
+
+                    botonRadio.setAttribute(
+                        "aria-pressed",
+                        "true"
+                    );
+
+                    estadoRadio.textContent =
+                        "Ya estás escuchando Zona Grupera.";
+                } catch (error) {
+                    estadoRadio.textContent =
+                        "No fue posible iniciar el audio. Inténtalo nuevamente.";
+                }
+            } else {
+                radio.pause();
+
+                botonRadio.textContent =
+                    "▶ Escucha Zona Grupera";
+
+                botonRadio.setAttribute(
+                    "aria-pressed",
+                    "false"
+                );
+
+                estadoRadio.textContent =
+                    "La transmisión está detenida.";
+            }
+        });
+
+        radio.addEventListener("waiting", function () {
+            estadoRadio.textContent =
+                "Cargando la transmisión...";
+        });
+
+        radio.addEventListener("playing", function () {
+            estadoRadio.textContent =
+                "Ya estás escuchando Zona Grupera.";
+        });
+
+        radio.addEventListener("error", function () {
+            estadoRadio.textContent =
+                "La transmisión no está disponible en este momento.";
+        });
+
+        botonSolicitudes.addEventListener("click", function () {
+            const estaCerrado = panelSolicitudes.hidden;
+
+            if (estaCerrado) {
+                if (!marcoSolicitudes.src) {
+                    marcoSolicitudes.src =
+                        marcoSolicitudes.dataset.src;
+                }
+
+                panelSolicitudes.hidden = false;
+
+                botonSolicitudes.textContent =
+                    "Cerrar solicitudes de canciones";
+
+                botonSolicitudes.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+                panelSolicitudes.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            } else {
+                panelSolicitudes.hidden = true;
+
+                botonSolicitudes.textContent =
+                    "🎵 Solicítala aquí";
+
+                botonSolicitudes.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                botonSolicitudes.focus();
+            }
+        });
+    </script>
 
 </body>
-
 </html>
