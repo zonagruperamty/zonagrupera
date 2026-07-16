@@ -1,0 +1,26 @@
+{
+  "name": "Zona Grupera",
+  "short_name": "Zona Grupera",
+  "description": "La estación de la nueva era. Música grupera, banda, tropical y vallenato las 24 horas.",
+  "lang": "es-MX",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#070b16",
+  "theme_color": "#0b1f49",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
