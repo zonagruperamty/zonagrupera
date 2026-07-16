@@ -11,6 +11,15 @@
 
     <title>Zona Grupera | La estación de la nueva era</title>
 
+    <meta name="theme-color" content="#0b1f49">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Zona Grupera">
+
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+
     <style>
         * {
             box-sizing: border-box;
@@ -555,6 +564,23 @@
 
                 </p>
 
+
+                <div class="instalacion-app">
+
+                    <button id="botonInstalar"
+                            class="boton-secundario"
+                            type="button">
+
+                        📲 Instalar Zona Grupera
+
+                    </button>
+
+                    <p id="estadoInstalacion"
+                       role="status"
+                       aria-live="polite"></p>
+
+                </div>
+
                 <audio id="radio"
                        preload="none">
 
@@ -903,6 +929,15 @@
     </footer>
 
     <script>
+
+        const botonInstalar =
+            document.getElementById("botonInstalar");
+
+        const estadoInstalacion =
+            document.getElementById("estadoInstalacion");
+
+        let eventoInstalacion = null;
+
         const radio = document.getElementById("radio");
         const botonRadio = document.getElementById("botonRadio");
         const estadoRadio = document.getElementById("estadoRadio");
@@ -1178,6 +1213,65 @@
                 } else {
                     window.location.href = enlaceWhatsApp;
                 }
+            }
+        );
+
+
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker
+                    .register("./service-worker.js")
+                    .catch(function () {
+                        estadoInstalacion.textContent =
+                            "No fue posible activar la instalación en este momento.";
+                    });
+            });
+        }
+
+        window.addEventListener(
+            "beforeinstallprompt",
+            function (evento) {
+                evento.preventDefault();
+                eventoInstalacion = evento;
+                botonInstalar.classList.add("disponible");
+                estadoInstalacion.textContent =
+                    "Puedes instalar Zona Grupera en este dispositivo.";
+            }
+        );
+
+        botonInstalar.addEventListener(
+            "click",
+            async function () {
+                if (!eventoInstalacion) {
+                    estadoInstalacion.textContent =
+                        "Usa la opción Instalar aplicación o Agregar a pantalla de inicio de tu navegador.";
+                    return;
+                }
+
+                eventoInstalacion.prompt();
+
+                const resultado =
+                    await eventoInstalacion.userChoice;
+
+                if (resultado.outcome === "accepted") {
+                    estadoInstalacion.textContent =
+                        "Zona Grupera se está instalando.";
+                } else {
+                    estadoInstalacion.textContent =
+                        "La instalación fue cancelada.";
+                }
+
+                eventoInstalacion = null;
+                botonInstalar.classList.remove("disponible");
+            }
+        );
+
+        window.addEventListener(
+            "appinstalled",
+            function () {
+                estadoInstalacion.textContent =
+                    "Zona Grupera quedó instalada.";
+                botonInstalar.classList.remove("disponible");
             }
         );
 
