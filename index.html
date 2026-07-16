@@ -285,6 +285,103 @@
             border: 1px solid rgba(255, 255, 255, 0.13);
         }
 
+
+        .sugerencias {
+            background: rgba(17, 26, 45, 0.74);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .formulario-sugerencia {
+            width: min(650px, 100%);
+            margin: 30px auto 0;
+            padding: 28px;
+            background: var(--tarjeta);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            text-align: left;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: var(--dorado-claro);
+        }
+
+        .campo input,
+        .campo textarea {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #68738b;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #111111;
+            font: inherit;
+        }
+
+        .campo textarea {
+            min-height: 115px;
+            resize: vertical;
+        }
+
+        .campo input:focus,
+        .campo textarea:focus {
+            outline: 4px solid var(--dorado-claro);
+            outline-offset: 2px;
+            border-color: #111111;
+        }
+
+        .nota-formulario {
+            color: var(--texto-suave);
+            font-size: 0.95rem;
+        }
+
+        .boton-enviar {
+            width: 100%;
+            background: linear-gradient(135deg, #128c4a, #25d366);
+            color: #07140b;
+        }
+
+        #estadoSugerencia {
+            min-height: 28px;
+            margin: 15px 0 0;
+            font-weight: bold;
+            color: var(--dorado-claro);
+        }
+
+        .comunidad {
+            background: rgba(8, 13, 26, 0.75);
+        }
+
+        .facebook-contenedor {
+            width: min(500px, 100%);
+            margin: 25px auto 0;
+            overflow: hidden;
+            background: #ffffff;
+            border-radius: 16px;
+        }
+
+        .facebook-contenedor iframe {
+            display: block;
+            width: 100%;
+            max-width: 500px;
+            min-height: 180px;
+            border: 0;
+        }
+
+        .enlace-facebook {
+            display: inline-block;
+            margin-top: 18px;
+            color: var(--dorado-claro);
+            font-weight: bold;
+        }
+
         footer {
             padding: 35px 15px;
             background: #03050a;
@@ -312,6 +409,15 @@
 
             .marco-solicitudes {
                 min-height: 900px;
+            }
+
+
+            .formulario-sugerencia {
+                padding: 22px 17px;
+            }
+
+            .facebook-contenedor iframe {
+                min-height: 210px;
             }
         }
 
@@ -498,6 +604,144 @@
             </div>
         </section>
 
+
+        <section class="sugerencias"
+                 aria-labelledby="tituloSugerencias">
+
+            <div class="contenedor">
+
+                <h2 id="tituloSugerencias"
+                    class="titulo-seccion">
+
+                    ¿No encontraste tu canción?
+
+                </h2>
+
+                <p class="descripcion-seccion">
+                    Sugiere una canción para incluirla en nuestra
+                    programación. Tus recomendaciones nos ayudan
+                    a seguir ampliando la música de Zona Grupera.
+                </p>
+
+                <form id="formularioSugerencia"
+                      class="formulario-sugerencia">
+
+                    <div class="campo">
+                        <label for="nombreRadioescucha">
+                            Tu nombre, opcional
+                        </label>
+
+                        <input id="nombreRadioescucha"
+                               name="nombre"
+                               type="text"
+                               autocomplete="name"
+                               maxlength="60">
+                    </div>
+
+                    <div class="campo">
+                        <label for="artistaSugerido">
+                            Artista o grupo
+                        </label>
+
+                        <input id="artistaSugerido"
+                               name="artista"
+                               type="text"
+                               required
+                               maxlength="100"
+                               aria-required="true">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cancionSugerida">
+                            Nombre de la canción
+                        </label>
+
+                        <input id="cancionSugerida"
+                               name="cancion"
+                               type="text"
+                               required
+                               maxlength="120"
+                               aria-required="true">
+                    </div>
+
+                    <div class="campo">
+                        <label for="comentarioSugerencia">
+                            Comentario, opcional
+                        </label>
+
+                        <textarea id="comentarioSugerencia"
+                                  name="comentario"
+                                  maxlength="300"
+                                  placeholder="Por ejemplo: hace mucho que no la escucho o me gustaría dedicarla."></textarea>
+                    </div>
+
+                    <p class="nota-formulario">
+                        Al pulsar el botón se abrirá WhatsApp
+                        con tu sugerencia preparada. Revisa el
+                        mensaje y pulsa Enviar.
+                    </p>
+
+                    <button class="boton-principal boton-enviar"
+                            type="submit">
+
+                        Enviar sugerencia por WhatsApp
+
+                    </button>
+
+                    <p id="estadoSugerencia"
+                       role="status"
+                       aria-live="polite"></p>
+
+                </form>
+
+            </div>
+        </section>
+
+        <section class="comunidad"
+                 aria-labelledby="tituloFacebook">
+
+            <div class="contenedor centro">
+
+                <h2 id="tituloFacebook"
+                    class="titulo-seccion">
+
+                    Forma parte de nuestra comunidad
+
+                </h2>
+
+                <p class="descripcion-seccion">
+                    Sigue a Zona Grupera en Facebook para enterarte
+                    de promociones, concursos, programas especiales
+                    y novedades.
+                </p>
+
+                <div class="facebook-contenedor">
+
+                    <iframe
+                        title="Página de Facebook de Zona Grupera"
+                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fnuestrazonagrupera%2F&tabs=&width=500&height=180&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+                        width="500"
+                        height="180"
+                        scrolling="no"
+                        frameborder="0"
+                        allowfullscreen="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
+
+                </div>
+
+                <a class="enlace-facebook"
+                   href="https://www.facebook.com/nuestrazonagrupera/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+
+                    Abrir Zona Grupera en Facebook
+
+                </a>
+
+            </div>
+        </section>
+
         <section class="contacto"
                  aria-labelledby="tituloContacto">
 
@@ -656,6 +900,83 @@
                 botonSolicitudes.focus();
             }
         });
+
+        const formularioSugerencia =
+            document.getElementById("formularioSugerencia");
+
+        const estadoSugerencia =
+            document.getElementById("estadoSugerencia");
+
+        formularioSugerencia.addEventListener(
+            "submit",
+            function (evento) {
+
+                evento.preventDefault();
+
+                const nombre =
+                    document.getElementById(
+                        "nombreRadioescucha"
+                    ).value.trim();
+
+                const artista =
+                    document.getElementById(
+                        "artistaSugerido"
+                    ).value.trim();
+
+                const cancion =
+                    document.getElementById(
+                        "cancionSugerida"
+                    ).value.trim();
+
+                const comentario =
+                    document.getElementById(
+                        "comentarioSugerencia"
+                    ).value.trim();
+
+                if (!artista || !cancion) {
+                    estadoSugerencia.textContent =
+                        "Escribe el artista y el nombre de la canción.";
+
+                    return;
+                }
+
+                let mensaje =
+                    "¡Hola, Zona Grupera!\n\n" +
+                    "Quiero sugerir una canción para que forme parte de la programación.\n\n" +
+                    "Artista o grupo: " + artista + "\n" +
+                    "Canción: " + cancion;
+
+                if (nombre) {
+                    mensaje +=
+                        "\nNombre del radioescucha: " + nombre;
+                }
+
+                if (comentario) {
+                    mensaje +=
+                        "\nComentario: " + comentario;
+                }
+
+                mensaje +=
+                    "\n\nEnviado desde la página de Zona Grupera.";
+
+                const enlaceWhatsApp =
+                    "https://wa.me/528115329210?text=" +
+                    encodeURIComponent(mensaje);
+
+                estadoSugerencia.textContent =
+                    "Abriendo WhatsApp con tu sugerencia.";
+
+                const ventanaWhatsApp =
+                    window.open(enlaceWhatsApp, "_blank");
+
+                if (ventanaWhatsApp) {
+                    ventanaWhatsApp.opener = null;
+                } else {
+                    window.location.href = enlaceWhatsApp;
+                }
+            }
+        );
+
     </script>
 
 </body>
